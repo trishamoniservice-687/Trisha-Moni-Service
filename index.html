@@ -19,11 +19,11 @@
     .contact a {color: green; text-decoration: none; font-weight: bold;}
   footer { background-color:#333; color:white; padding:20px; text-align:center; margin-top:20px; }
   #dateContainer {
-    display: flex;              /* ফ্লেক্সবক্স ব্যবহার */
-    justify-content: center;    /* horizontal center */
-    align-items: center;        /* vertical center */
-    height: 100vh;              /* viewport height পুরো */
-    font-size: 2rem;            /* চাইলে বড় ফন্ট */
+    display: flex;
+    justify-content: center;
+    align-items: center;       
+    height: 100vh;    
+    font-size: 2rem; 
     font-weight: bold;
   }
   </style>
@@ -48,11 +48,7 @@
   const day = today.getDate();
   const month = banglaMonths[today.getMonth()];
   const year = today.getFullYear();
-
-  // বাংলায় তারিখ ফরম্যাট
   const banglaDate = day + " " + month + " " + year;
-
-  // HTML-এ বসানো (যেখানে <span id="currentDate"></span> আছে)
   document.getElementById('currentDate').textContent = banglaDate;
     </script>
     
