@@ -8,7 +8,7 @@
     body {font-family: system-ui, -apple-system, 'Noto Sans Bengali', sans-serif; margin: 0; background: #f6f6f6; color: #222;}
     header {background: green; color: white; text-align: center; padding: 30px 10px;}
     h1 {margin: 0;}
-    #date-line { background-color:#e6e6e6; padding:10px; text-align:center; font-size:16px; }
+  
     .container {max-width: 900px; margin: 20px auto; padding: 0 15px;}
     .categories {display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;}
     .card {background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
@@ -28,6 +28,26 @@
     </script>
   
   <main class="container">
+    <p>আজকের তারিখ: <span id="currentDate"></span></p>
+    <script>
+  // বাংলা মাসের নাম
+  const banglaMonths = [
+    "জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন",
+    "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"
+  ];
+
+  const today = new Date();
+  const day = today.getDate();
+  const month = banglaMonths[today.getMonth()];
+  const year = today.getFullYear();
+
+  // বাংলায় তারিখ ফরম্যাট
+  const banglaDate = day + " " + month + " " + year;
+
+  // HTML-এ বসানো (যেখানে <span id="currentDate"></span> আছে)
+  document.getElementById('currentDate').textContent = banglaDate;
+    </script>
+    
     <section class="categories">
       <div class="card">
         <a href="video.html" target="_blank">🎥 ভিডিও সার্ভিস</a>
