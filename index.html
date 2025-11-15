@@ -18,6 +18,14 @@
     .contact {margin-top: 25px; background: #fff; padding: 15px; border-radius: 10px;}
     .contact a {color: green; text-decoration: none; font-weight: bold;}
   footer { background-color:#333; color:white; padding:20px; text-align:center; margin-top:20px; }
+  #dateContainer {
+    display: flex;              /* ফ্লেক্সবক্স ব্যবহার */
+    justify-content: center;    /* horizontal center */
+    align-items: center;        /* vertical center */
+    height: 100vh;              /* viewport height পুরো */
+    font-size: 2rem;            /* চাইলে বড় ফন্ট */
+    font-weight: bold;
+  }
   </style>
 </head>
 <body>
@@ -28,7 +36,7 @@
     </script>
   
   <main class="container">
-    <p>আজকের তারিখ: <span id="currentDate"></span></p>
+    <h2>আজকের তারিখ: <span id="currentDate"></span></h2>
     <script>
   // বাংলা মাসের নাম
   const banglaMonths = [
