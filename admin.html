@@ -10,6 +10,7 @@
     input, textarea { width:100%; padding:10px; margin:10px 0; }
     button { padding:10px 15px; cursor:pointer; }
     #postBox { white-space: pre-wrap; background:#f7f7f7; padding:10px; border-radius:5px; margin-top:10px; }
+    img.preview { max-width:100%; margin-top:10px; border-radius:5px; }
 </style>
 </head>
 <body>
@@ -25,7 +26,11 @@
 <div id="panel" class="box" style="display:none;">
     <h3>Create New Post</h3>
     <input type="text" id="title" placeholder="Title / Caption">
-    <input type="text" id="imgLink" placeholder="Image Direct URL">
+
+    <!-- ছবি আপলোড ফিল্ড -->
+    <input type="file" id="imgFile" accept="image/*">
+    <img id="preview" class="preview" src="" style="display:none;">
+
     <textarea id="text" placeholder="Write something..." rows="5"></textarea>
     <button onclick="generatePost()">Generate Post</button>
 
@@ -35,6 +40,7 @@
 
 <script>
 const ADMIN_PASSWORD = "1";  // এখানে তোমার পাসওয়ার্ড দাও
+let imgData = ""; // ছবি Base64 স্টোর করার জন্য
 
 function checkPass() {
     let p = document.getElementById("pass").value;
@@ -46,14 +52,28 @@ function checkPass() {
     }
 }
 
+// ছবি প্রিভিউ এবং Base64 হিসেবে লোড করা
+document.getElementById('imgFile').addEventListener('change', function(){
+    const file = this.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            imgData = e.target.result; // Base64
+            const preview = document.getElementById('preview');
+            preview.src = imgData;
+            preview.style.display = "block";
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
 function generatePost() {
     let title = document.getElementById("title").value;
-    let img = document.getElementById("imgLink").value;
     let text = document.getElementById("text").value;
 
     let code = `
     <div class="post">
-        <img src="${img}" alt="">
+        ${imgData ? `<img src="${imgData}" alt="">` : ''}
         <h3>${title}</h3>
         <p>${text}</p>
     </div>
