@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel</title>
+<style>
+    body { font-family: Arial; max-width: 600px; margin: 40px auto; }
+    .box { border: 1px solid #ddd; padding:20px; border-radius:10px; }
+    input, textarea { width:100%; padding:10px; margin:10px 0; }
+    button { padding:10px 15px; cursor:pointer; }
+    #postBox { white-space: pre-wrap; background:#f7f7f7; padding:10px; border-radius:5px; margin-top:10px; }
+</style>
+</head>
+<body>
+
+<h2>Admin Login</h2>
+
+<div id="loginBox" class="box">
+    <input type="password" id="pass" placeholder="Enter Password">
+    <button onclick="checkPass()">Login</button>
+    <p id="msg"></p>
+</div>
+
+<div id="panel" class="box" style="display:none;">
+    <h3>Create New Post</h3>
+    <input type="text" id="title" placeholder="Title / Caption">
+    <input type="text" id="imgLink" placeholder="Image Direct URL">
+    <textarea id="text" placeholder="Write something..." rows="5"></textarea>
+    <button onclick="generatePost()">Generate Post</button>
+
+    <h4>Copy This Code:</h4>
+    <div id="postBox"></div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = "1";  // এখানে তোমার পাসওয়ার্ড দাও
+
+function checkPass() {
+    let p = document.getElementById("pass").value;
+    if(p === ADMIN_PASSWORD){
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("panel").style.display = "block";
+    } else {
+        document.getElementById("msg").innerText = "Wrong Password!";
+    }
+}
+
+function generatePost() {
+    let title = document.getElementById("title").value;
+    let img = document.getElementById("imgLink").value;
+    let text = document.getElementById("text").value;
+
+    let code = `
+    <div class="post">
+        <img src="${img}" alt="">
+        <h3>${title}</h3>
+        <p>${text}</p>
+    </div>
+    `;
+
+    document.getElementById("postBox").innerText = code;
+}
+</script>
+
+</body>
+</html>
