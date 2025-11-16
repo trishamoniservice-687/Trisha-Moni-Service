@@ -3,58 +3,81 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Email Message Sender</title>
+<title>Email Order System</title>
 
 <style>
     body {
-        font-family: 'Segoe UI', Tahoma, sans-serif;
-        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        font-family: "Segoe UI", Tahoma, sans-serif;
         margin: 0;
         padding: 0;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        animation: bgMove 12s infinite alternate ease-in-out;
+    }
+
+    @keyframes bgMove {
+        0% { background-position: 0 0; }
+        100% { background-position: 100% 100%; }
     }
 
     .container {
-        max-width: 420px;
+        max-width: 430px;
         margin: 60px auto;
-        background: #ffffffd9;
-        padding: 25px;
-        border-radius: 18px;
-        box-shadow: 0 6px 25px rgba(0,0,0,0.15);
-        backdrop-filter: blur(4px);
+        background: rgba(255,255,255,0.88);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        backdrop-filter: blur(5px);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+        width: 100px;
+        display: block;
+        margin: 0 auto 15px auto;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
     }
 
     h2 {
         text-align: center;
-        margin-bottom: 25px;
-        color: #333;
         font-size: 26px;
+        margin-bottom: 25px;
+        color: #222;
         font-weight: 700;
     }
 
     label {
-        font-size: 16px;
         font-weight: 600;
-        margin-top: 12px;
+        margin-top: 15px;
         display: block;
         color: #222;
+        font-size: 16px;
     }
 
     select {
         width: 100%;
         padding: 12px;
         font-size: 16px;
-        margin-top: 8px;
         border-radius: 10px;
         border: 1px solid #ddd;
+        margin-top: 8px;
         outline: none;
         background: #fafafa;
         transition: 0.3s;
     }
 
     select:focus {
-        border-color: #4facfe;
-        box-shadow: 0 0 8px rgba(79,172,254,0.4);
-        background: white;
+        border-color: #6a11cb;
+        box-shadow: 0 0 8px rgba(106,17,203,0.3);
     }
 
     button {
@@ -66,24 +89,62 @@
         border: none;
         border-radius: 12px;
         cursor: pointer;
-        background: #4facfe;
+        background: #6a11cb;
         color: white;
         transition: 0.3s;
     }
 
     button:hover {
-        background: #0078ff;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        background: #520c9c;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.25);
     }
+
+    /* Confirmation Box */
+    #confirmBox {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(3px);
+    }
+
+    .confirmContent {
+        width: 320px;
+        margin: 160px auto;
+        background: #fff;
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .confirmBtn {
+        padding: 10px 18px;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .yes { background: #6a11cb; color: white; }
+    .no { background: #ccc; }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>ইমেইলে মেসেজ পাঠান</h2>
+
+    <!-- LOGO -->
+    <img class="logo" src="https://cdn-icons-png.flaticon.com/512/889/889192.png" />
+
+    <h2>ইমেইলে অর্ডার পাঠান</h2>
 
     <label>ক্যাটাগরি নির্বাচন করুন:</label>
-    <select id="category">
+    <select id="category" onchange="loadPrices()">
         <option value="">সিলেক্ট করুন</option>
         <option value="Category One">Category One</option>
         <option value="Category Two">Category Two</option>
@@ -91,32 +152,72 @@
 
     <label>প্রাইস নির্বাচন করুন:</label>
     <select id="price">
-        <option value="">সিলেক্ট করুন</option>
-        <option value="100 টাকা">100 টাকা</option>
-        <option value="200 টাকা">200 টাকা</option>
-        <option value="300 টাকা">300 টাকা</option>
+        <option value="">প্রথমে ক্যাটাগরি সিলেক্ট করুন</option>
     </select>
 
-    <button onclick="sendEmail()">ইমেইল পাঠান</button>
+    <button onclick="prepareEmail()">ইমেইল পাঠান</button>
+</div>
+
+<!-- Confirm Box -->
+<div id="confirmBox">
+    <div class="confirmContent">
+        <h3>আপনি কি নিশ্চিত?</h3>
+        <p id="confirmText"></p>
+        <button class="confirmBtn yes" onclick="sendEmail()">হ্যাঁ</button>
+        <button class="confirmBtn no" onclick="closeConfirm()">না</button>
+    </div>
 </div>
 
 <script>
-function sendEmail() {
+function loadPrices() {
+    let category = document.getElementById("category").value;
+    let priceSelect = document.getElementById("price");
+
+    priceSelect.innerHTML = "";
+
+    if (category === "Category One") {
+        priceSelect.innerHTML += `<option value="150 টাকা">150 টাকা</option>`;
+        priceSelect.innerHTML += `<option value="250 টাকা">250 টাকা</option>`;
+        priceSelect.innerHTML += `<option value="350 টাকা">350 টাকা</option>`;
+    } 
+    else if (category === "Category Two") {
+        priceSelect.innerHTML += `<option value="120 টাকা">120 টাকা</option>`;
+        priceSelect.innerHTML += `<option value="220 টাকা">220 টাকা</option>`;
+        priceSelect.innerHTML += `<option value="320 টাকা">320 টাকা</option>`;
+    }
+}
+
+let finalCategory = "";
+let finalPrice = "";
+
+function prepareEmail() {
     const category = document.getElementById("category").value;
     const price = document.getElementById("price").value;
 
     if (!category || !price) {
-        alert("ক্যাটাগরি ও প্রাইস দুটোই সিলেক্ট করুন!");
+        alert("দয়া করে ক্যাটাগরি এবং প্রাইস সিলেক্ট করুন!");
         return;
     }
 
+    finalCategory = category;
+    finalPrice = price;
+
+    document.getElementById("confirmText").innerText =
+        `ক্যাটাগরি: ${category}\nপ্রাইস: ${price}`;
+    
+    document.getElementById("confirmBox").style.display = "block";
+}
+
+function closeConfirm() {
+    document.getElementById("confirmBox").style.display = "none";
+}
+
+function sendEmail() {
     const email = "trishamoniservice@gmail.com";
     const subject = "নতুন অর্ডার";
-    const body = `ক্যাটাগরি: ${category}\nপ্রাইস: ${price}`;
+    const body = `ক্যাটাগরি: ${finalCategory}\nপ্রাইস: ${finalPrice}`;
 
-    const mailToLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    window.location.href = mailToLink;
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 </script>
 
