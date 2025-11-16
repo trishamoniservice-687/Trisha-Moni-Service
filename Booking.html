@@ -141,13 +141,13 @@
     <!-- LOGো -->
     <img class="logo" src="https://cdn-icons-png.flaticon.com/512/889/889192.png" />
 
-    <h2>ইমেইলে অর্ডার পাঠান</h2>
+    <h2>সরাসরি অর্ডার পাঠান</h2>
 
-    <label>ক্যাটাগরি নির্বাচন করুন:</label>
+    <label>আপনি কোন সার্ভিস নিতে চাচ্ছেন নির্বাচন করুন:</label>
     <select id="category" onchange="loadPrices()">
         <option value="">সিলেক্ট করুন</option>
-        <option value="Category One">Category One</option>
-        <option value="Category Two">Category Two</option>
+        <option value="Category One">ভিডিও সার্ভিস</option>
+        <option value="Category Two">রুম সার্ভিস</option>
     </select>
 
     <label>প্রাইস নির্বাচন করুন:</label>
@@ -182,15 +182,15 @@ function loadPrices() {
 
     priceSelect.innerHTML = "";
 
-    if (category === "Category One") {
-        priceSelect.innerHTML += `<option value="150 টাকা">150 টাকা</option>`;
-        priceSelect.innerHTML += `<option value="250 টাকা">250 টাকা</option>`;
-        priceSelect.innerHTML += `<option value="350 টাকা">350 টাকা</option>`;
+    if (category === "ভিডিও সার্ভিস") {
+        priceSelect.innerHTML += `<option value="৭০০ টাকা">৭০০ টাকা</option>`;
+        priceSelect.innerHTML += `<option value="১০০০ টাকা">১০০০ টাকা</option>`;
+        priceSelect.innerHTML += `<option value="২০০ টাকা">২০০ টাকা</option>`;
     } 
-    else if (category === "Category Two") {
-        priceSelect.innerHTML += `<option value="120 টাকা">120 টাকা</option>`;
-        priceSelect.innerHTML += `<option value="220 টাকা">220 টাকা</option>`;
-        priceSelect.innerHTML += `<option value="320 টাকা">320 টাকা</option>`;
+    else if (category === "রুম সার্ভিস") {
+        priceSelect.innerHTML += `<option value="১০০০ টাকা">১০০০ টাকা</option>`;
+        priceSelect.innerHTML += `<option value="২০০০ টাকা">২০০০ টাকা</option>`;
+        priceSelect.innerHTML += `<option value="৫০০০ টাকা">৫০০০ টাকা</option>`;
     }
 }
 
