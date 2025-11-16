@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IMo Message Sender</title>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 420px;
+        margin: 60px auto;
+        background: #ffffffd9;
+        padding: 25px;
+        border-radius: 18px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+        backdrop-filter: blur(4px);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+    label {
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 12px;
+        display: block;
+        color: #222;
+    }
+
+    select {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 8px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        outline: none;
+        background: #fafafa;
+        transition: 0.3s;
+    }
+
+    select:focus {
+        border-color: #4facfe;
+        box-shadow: 0 0 8px rgba(79,172,254,0.4);
+        background: white;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 22px;
+        font-size: 18px;
+        font-weight: 600;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        background: #4facfe;
+        color: white;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #0078ff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>ইমোতে মেসেজ পাঠান</h2>
+
+    <label>ক্যাটাগরি নির্বাচন করুন:</label>
+    <select id="category">
+        <option value="">সিলেক্ট করুন</option>
+        <option value="Category One">Category One</option>
+        <option value="Category Two">Category Two</option>
+    </select>
+
+    <label>প্রাইস নির্বাচন করুন:</label>
+    <select id="price">
+        <option value="">সিলেক্ট করুন</option>
+        <option value="100 টাকা">100 টাকা</option>
+        <option value="200 টাকা">200 টাকা</option>
+        <option value="300 টাকা">300 টাকা</option>
+    </select>
+
+    <button onclick="sendImo()">ইমোতে পাঠান</button>
+</div>
+
+<script>
+function sendImo() {
+    const category = document.getElementById("category").value;
+    const price = document.getElementById("price").value;
+
+    if (!category || !price) {
+        alert("ক্যাটাগরি ও প্রাইস দুটোই সিলেক্ট করুন!");
+        return;
+    }
+
+    const message = `আমি ${category} সিলেক্ট করেছি। প্রাইস: ${price}`;
+    const number = "01765010687";
+
+    const url = `https://imo.im/sms?to=${number}&text=${encodeURIComponent(message)}`;
+
+    window.location.href = url;
+}
+</script>
+
+</body>
+</html>
