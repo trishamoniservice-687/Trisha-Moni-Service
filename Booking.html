@@ -63,7 +63,7 @@
         font-size: 16px;
     }
 
-    select {
+    input, select {
         width: 100%;
         padding: 12px;
         font-size: 16px;
@@ -75,7 +75,7 @@
         transition: 0.3s;
     }
 
-    select:focus {
+    input:focus, select:focus {
         border-color: #6a11cb;
         box-shadow: 0 0 8px rgba(106,17,203,0.3);
     }
@@ -138,7 +138,7 @@
 
 <div class="container">
 
-    <!-- LOGO -->
+    <!-- LOGো -->
     <img class="logo" src="https://cdn-icons-png.flaticon.com/512/889/889192.png" />
 
     <h2>ইমেইলে অর্ডার পাঠান</h2>
@@ -155,6 +155,12 @@
         <option value="">প্রথমে ক্যাটাগরি সিলেক্ট করুন</option>
     </select>
 
+    <label>তারিখ নির্বাচন করুন:</label>
+    <input type="date" id="date" />
+
+    <label>সময় নির্বাচন করুন:</label>
+    <input type="time" id="time" />
+
     <button onclick="prepareEmail()">ইমেইল পাঠান</button>
 </div>
 
@@ -169,6 +175,7 @@
 </div>
 
 <script>
+// Different prices for different categories
 function loadPrices() {
     let category = document.getElementById("category").value;
     let priceSelect = document.getElementById("price");
@@ -189,21 +196,27 @@ function loadPrices() {
 
 let finalCategory = "";
 let finalPrice = "";
+let finalDate = "";
+let finalTime = "";
 
 function prepareEmail() {
     const category = document.getElementById("category").value;
     const price = document.getElementById("price").value;
+    const date = document.getElementById("date").value;
+    const time = document.getElementById("time").value;
 
-    if (!category || !price) {
-        alert("দয়া করে ক্যাটাগরি এবং প্রাইস সিলেক্ট করুন!");
+    if (!category || !price || !date || !time) {
+        alert("সবগুলো ঘর পূরণ করুন!");
         return;
     }
 
     finalCategory = category;
     finalPrice = price;
+    finalDate = date;
+    finalTime = time;
 
     document.getElementById("confirmText").innerText =
-        `ক্যাটাগরি: ${category}\nপ্রাইস: ${price}`;
+        `ক্যাটাগরি: ${category}\nপ্রাইস: ${price}\nতারিখ: ${date}\nসময়: ${time}`;
     
     document.getElementById("confirmBox").style.display = "block";
 }
@@ -215,7 +228,8 @@ function closeConfirm() {
 function sendEmail() {
     const email = "trishamoniservice@gmail.com";
     const subject = "নতুন অর্ডার";
-    const body = `ক্যাটাগরি: ${finalCategory}\nপ্রাইস: ${finalPrice}`;
+    const body = 
+        `ক্যাটাগরি: ${finalCategory}\nপ্রাইস: ${finalPrice}\nতারিখ: ${finalDate}\nসময়: ${finalTime}`;
 
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
