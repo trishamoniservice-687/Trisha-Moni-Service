@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>IMo Message Sender</title>
+<title>Email Message Sender</title>
 
 <style>
     body {
@@ -80,7 +80,7 @@
 <body>
 
 <div class="container">
-    <h2>ইমোতে মেসেজ পাঠান</h2>
+    <h2>ইমেইলে মেসেজ পাঠান</h2>
 
     <label>ক্যাটাগরি নির্বাচন করুন:</label>
     <select id="category">
@@ -97,11 +97,11 @@
         <option value="300 টাকা">300 টাকা</option>
     </select>
 
-    <button onclick="sendImo()">ইমোতে পাঠান</button>
+    <button onclick="sendEmail()">ইমেইল পাঠান</button>
 </div>
 
 <script>
-function sendImo() {
+function sendEmail() {
     const category = document.getElementById("category").value;
     const price = document.getElementById("price").value;
 
@@ -110,12 +110,13 @@ function sendImo() {
         return;
     }
 
-    const message = `আমি ${category} সিলেক্ট করেছি। প্রাইস: ${price}`;
-    const number = "01765010687";
+    const email = "trishamoniservice@gmail.com";
+    const subject = "নতুন অর্ডার";
+    const body = `ক্যাটাগরি: ${category}\nপ্রাইস: ${price}`;
 
-    const url = `https://imo.im/sms?to=${number}&text=${encodeURIComponent(message)}`;
+    const mailToLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    window.location.href = url;
+    window.location.href = mailToLink;
 }
 </script>
 
